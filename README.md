@@ -198,16 +198,12 @@ For questions or collaboration opportunities, please refer to the repository own
 
 **Note**: This is a simplified epidemiological model designed for educational purposes. It should not be used for real-world policy decisions without extensive validation and refinement.
 
-## Netlify Deployment
+## GitHub Pages
 
-Netlify cannot run the Streamlit server, so this repo ships a static build path. The Netlify build uses `scripts/build_static.py` to run a small, fixed simulation and publish the resulting charts and CSVs as a static site.
+GitHub Pages hosts a static snapshot of the model outputs. The build uses `scripts/build_static.py` to run a small, fixed simulation and publish the resulting charts and CSVs as a static site.
 
-- Build command: `python -m pip install -r requirements.txt && python scripts/build_static.py`
+- Build command: `python scripts/build_static.py`
 - Publish directory: `docs`
 - Customize the snapshot by editing `DEFAULT_COUNTRIES`, `DEFAULT_START_DATE`, `DEFAULT_END_DATE`, and `DEFAULT_SAMPLE_RATIO` in `scripts/build_static.py`.
 
-If you want the interactive UI, deploy `streamlit_ui.py` to Streamlit Community Cloud, Render, or another Python host instead of Netlify.
-
-## GitHub Pages
-
-Run `python scripts/build_static.py` to precompute the outputs into `docs/`, then commit the `docs/` folder and set GitHub Pages to serve from the `/docs` directory on your default branch.
+If you want the interactive UI, deploy `streamlit_ui.py` to Streamlit Community Cloud, Render, or another Python host instead of GitHub Pages.
