@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Covid-19 Simulation Snapshot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --ink: #1b1f2a;
+        --muted: #60667a;
+        --accent: #f26a4f;
+        --accent-2: #2a9d8f;
+        --card: #ffffff;
+        --panel: rgba(255, 255, 255, 0.8);
+        --shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: "Space Grotesk", "Segoe UI", sans-serif;
+        color: var(--ink);
+        background: radial-gradient(circle at top, #fbe4dd 0%, #fff4ef 40%, #f6f7ff 70%, #eef0f7 100%);
+      }
+      main {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 48px 24px 72px;
+      }
+      header {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 32px;
+        background: var(--panel);
+        border-radius: 24px;
+        box-shadow: var(--shadow);
+      }
+      h1 {
+        margin: 0;
+        font-size: clamp(2.2rem, 4vw, 3.4rem);
+        letter-spacing: -0.02em;
+      }
+      .lede {
+        font-size: 1.05rem;
+        color: var(--muted);
+        max-width: 720px;
+      }
+      .meta {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+        margin-top: 24px;
+      }
+      .meta div {
+        padding: 16px 18px;
+        border-radius: 16px;
+        background: var(--card);
+        box-shadow: var(--shadow);
+        font-family: "IBM Plex Mono", "Courier New", monospace;
+        font-size: 0.92rem;
+      }
+      .charts {
+        margin-top: 36px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 20px;
+      }
+      .card {
+        margin: 0;
+        padding: 18px;
+        background: var(--card);
+        border-radius: 18px;
+        box-shadow: var(--shadow);
+      }
+      .card img {
+        width: 100%;
+        height: auto;
+        border-radius: 12px;
+        display: block;
+      }
+      .card figcaption {
+        margin-top: 12px;
+        font-weight: 600;
+      }
+      .downloads {
+        margin-top: 36px;
+        padding: 24px;
+        background: var(--panel);
+        border-radius: 20px;
+        box-shadow: var(--shadow);
+      }
+      .downloads a {
+        display: inline-block;
+        margin-right: 16px;
+        color: var(--accent);
+        font-weight: 600;
+        text-decoration: none;
+      }
+      .note {
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+      @media (max-width: 720px) {
+        header { padding: 24px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>Covid-19 Simulation Snapshot</h1>
+        <p class="lede">Netlify hosts a static snapshot of the model outputs. The full interactive simulator remains a Streamlit app you can run locally or deploy to a Python-friendly host.</p>
+        <section class="meta">
+          <div>countries: Afghanistan, Sweden, Japan</div>
+          <div>sample_ratio: 1e+06</div>
+          <div>start_date: 2021-04-01</div>
+          <div>end_date: 2021-06-30</div>
+        </section>
+      </header>
+      <section class="charts">
+      <figure class="card">
+        <img src="covid_Afghanistan_filled_plot.png" alt="Afghanistan simulation plot">
+        <figcaption>Afghanistan</figcaption>
+      </figure>
+      <figure class="card">
+        <img src="covid_Sweden_filled_plot.png" alt="Sweden simulation plot">
+        <figcaption>Sweden</figcaption>
+      </figure>
+      <figure class="card">
+        <img src="covid_Japan_filled_plot.png" alt="Japan simulation plot">
+        <figcaption>Japan</figcaption>
+      </figure>
+      </section>
+      <section class="downloads">
+        <h2>Downloads</h2>
+        <a href="a2-covid-summary-timeseries.csv">summary time series CSV</a>
+        <a href="a2-covid-simulated-timeseries.csv">simulated time series CSV</a>
+        <a href="streamlit_ui.py">streamlit UI source</a>
+        <p class="note">To customize countries or date range, edit scripts/build_static.py and redeploy.</p>
+      </section>
+    </main>
+  </body>
+</html>
