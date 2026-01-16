@@ -3,50 +3,61 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Covid-19 Simulation Snapshot</title>
+    <title>Covid-19 Simulation Dashboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
       :root {
-        --ink: #1b1f2a;
-        --muted: #60667a;
-        --accent: #f26a4f;
-        --accent-2: #2a9d8f;
-        --card: #ffffff;
-        --panel: rgba(255, 255, 255, 0.8);
-        --shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+        --ink: #0f172a;
+        --muted: #475569;
+        --accent: #e4572e;
+        --accent-2: #1b998b;
+        --accent-3: #38686a;
+        --card: rgba(255, 255, 255, 0.92);
+        --panel: rgba(255, 255, 255, 0.82);
+        --shadow: 0 18px 40px rgba(15, 23, 42, 0.18);
       }
       * { box-sizing: border-box; }
       body {
         margin: 0;
         font-family: "Space Grotesk", "Segoe UI", sans-serif;
         color: var(--ink);
-        background: radial-gradient(circle at top, #fbe4dd 0%, #fff4ef 40%, #f6f7ff 70%, #eef0f7 100%);
+        background: radial-gradient(circle at 15% 20%, #ffe7d6 0%, #fff6ef 38%, #eef3ff 75%, #e7ecf7 100%);
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(120deg, rgba(27, 153, 139, 0.08), rgba(228, 87, 46, 0.08));
+        pointer-events: none;
       }
       main {
-        max-width: 1100px;
+        max-width: 1200px;
         margin: 0 auto;
         padding: 48px 24px 72px;
+        position: relative;
+        z-index: 1;
       }
       header {
         display: flex;
         flex-direction: column;
         gap: 16px;
-        padding: 32px;
+        padding: 36px;
         background: var(--panel);
-        border-radius: 24px;
+        border-radius: 28px;
         box-shadow: var(--shadow);
+        border: 1px solid rgba(255, 255, 255, 0.6);
       }
       h1 {
         margin: 0;
-        font-size: clamp(2.2rem, 4vw, 3.4rem);
+        font-size: clamp(2.4rem, 4.5vw, 3.8rem);
         letter-spacing: -0.02em;
       }
       .lede {
         font-size: 1.05rem;
         color: var(--muted);
-        max-width: 720px;
+        max-width: 760px;
       }
       .meta {
         display: grid;
@@ -58,38 +69,98 @@
         padding: 16px 18px;
         border-radius: 16px;
         background: var(--card);
-        box-shadow: var(--shadow);
-        font-family: "IBM Plex Mono", "Courier New", monospace;
+        box-shadow: 0 14px 30px rgba(15, 23, 42, 0.1);
+        font-family: "Space Mono", "Courier New", monospace;
         font-size: 0.92rem;
       }
-      .charts {
-        margin-top: 36px;
+      .layout {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        margin-top: 36px;
         gap: 20px;
       }
       .card {
         margin: 0;
-        padding: 18px;
+        padding: 20px 22px;
         background: var(--card);
-        border-radius: 18px;
+        border-radius: 22px;
         box-shadow: var(--shadow);
+        border: 1px solid rgba(255, 255, 255, 0.6);
       }
-      .card img {
-        width: 100%;
-        height: auto;
+      .card h2 {
+        margin: 0 0 12px;
+        font-size: 1.2rem;
+      }
+      .controls {
+        display: grid;
+        gap: 12px;
+      }
+      .controls label {
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+      select, button {
+        font-family: "Space Grotesk", "Segoe UI", sans-serif;
+        padding: 10px 12px;
         border-radius: 12px;
-        display: block;
+        border: 1px solid rgba(15, 23, 42, 0.12);
+        background: #fff;
+        font-size: 0.95rem;
       }
-      .card figcaption {
-        margin-top: 12px;
+      button {
+        background: var(--accent);
+        border: none;
+        color: #fff;
         font-weight: 600;
+        cursor: pointer;
+      }
+      .kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 14px;
+        margin-top: 16px;
+      }
+      .kpi {
+        padding: 14px 16px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.92);
+        box-shadow: 0 12px 26px rgba(15, 23, 42, 0.08);
+      }
+      .kpi span {
+        display: block;
+        font-size: 0.85rem;
+        color: var(--muted);
+      }
+      .kpi strong {
+        font-size: 1.2rem;
+      }
+      .charts {
+        display: grid;
+        gap: 18px;
+      }
+      canvas {
+        width: 100%;
+        max-height: 320px;
+      }
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.88rem;
+      }
+      .table th, .table td {
+        padding: 8px 6px;
+        text-align: left;
+        border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+      }
+      .table th {
+        font-weight: 600;
+        color: var(--muted);
       }
       .downloads {
         margin-top: 36px;
         padding: 24px;
         background: var(--panel);
-        border-radius: 20px;
+        border-radius: 22px;
         box-shadow: var(--shadow);
       }
       .downloads a {
@@ -112,8 +183,8 @@
   <body>
     <main>
       <header>
-        <h1>Covid-19 Simulation Snapshot</h1>
-        <p class="lede">Netlify hosts a static snapshot of the model outputs. The full interactive simulator remains a Streamlit app you can run locally or deploy to a Python-friendly host.</p>
+        <h1>Covid-19 Simulation Dashboard</h1>
+        <p class="lede">A curated, precomputed snapshot of the simulation results. Explore time-series trends, peaks, and outcomes for each country without running the model.</p>
         <section class="meta">
           <div>countries: Afghanistan, Sweden, Japan</div>
           <div>sample_ratio: 1e+06</div>
@@ -121,26 +192,266 @@
           <div>end_date: 2021-06-30</div>
         </section>
       </header>
-      <section class="charts">
-      <figure class="card">
-        <img src="covid_Afghanistan_filled_plot.png" alt="Afghanistan simulation plot">
-        <figcaption>Afghanistan</figcaption>
-      </figure>
-      <figure class="card">
-        <img src="covid_Sweden_filled_plot.png" alt="Sweden simulation plot">
-        <figcaption>Sweden</figcaption>
-      </figure>
-      <figure class="card">
-        <img src="covid_Japan_filled_plot.png" alt="Japan simulation plot">
-        <figcaption>Japan</figcaption>
-      </figure>
+      <section class="layout">
+        <div class="card">
+          <h2>Explore</h2>
+          <div class="controls">
+            <div>
+              <label for="countrySelect">Country</label>
+              <select id="countrySelect"></select>
+            </div>
+            <div>
+              <label for="viewSelect">Chart view</label>
+              <select id="viewSelect">
+                <option value="stacked">Stacked area</option>
+                <option value="lines">Lines</option>
+              </select>
+            </div>
+            <button id="resetZoom" type="button">Reset to full range</button>
+          </div>
+          <div class="kpi-grid">
+            <div class="kpi">
+              <span>Peak infected</span>
+              <strong id="peakInfected">-</strong>
+            </div>
+            <div class="kpi">
+              <span>Peak serious</span>
+              <strong id="peakSerious">-</strong>
+            </div>
+            <div class="kpi">
+              <span>Recovered end</span>
+              <strong id="finalRecovered">-</strong>
+            </div>
+            <div class="kpi">
+              <span>Deaths end</span>
+              <strong id="finalDeaths">-</strong>
+            </div>
+          </div>
+        </div>
+        <div class="card charts">
+          <h2>State trends</h2>
+          <canvas id="trendChart"></canvas>
+        </div>
+        <div class="card charts">
+          <h2>End-of-window mix</h2>
+          <canvas id="mixChart"></canvas>
+        </div>
+        <div class="card">
+          <h2>Latest 7 days</h2>
+          <table class="table" id="latestTable">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>H</th>
+                <th>I</th>
+                <th>S</th>
+                <th>M</th>
+                <th>D</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
       </section>
       <section class="downloads">
-        <h2>Downloads</h2>
+        <h2>Data exports</h2>
         <a href="a2-covid-summary-timeseries.csv">summary time series CSV</a>
         <a href="a2-covid-simulated-timeseries.csv">simulated time series CSV</a>
-        <p class="note">To customize countries or date range, edit scripts/build_static.py and redeploy.</p>
+        <p class="note">Precomputed outputs are bundled with this site. No additional processing required.</p>
       </section>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script>
+      const SUMMARY_CSV = "a2-covid-summary-timeseries.csv";
+      const colors = {
+        H: "#2d6a6a",
+        I: "#f4a261",
+        S: "#e76f51",
+        M: "#2a9d8f",
+        D: "#6c757d"
+      };
+
+      function parseCsv(text) {
+        const lines = text.trim().split(/\r?\n/);
+        const headers = lines[0].split(",");
+        return lines.slice(1).map((line) => {
+          const values = line.split(",");
+          const row = {};
+          headers.forEach((header, index) => {
+            row[header] = values[index];
+          });
+          return row;
+        });
+      }
+
+      function formatNumber(value) {
+        return new Intl.NumberFormat("en-US").format(value);
+      }
+
+      function buildSeries(rows) {
+        return {
+          labels: rows.map((row) => row.date),
+          H: rows.map((row) => Number(row.H)),
+          I: rows.map((row) => Number(row.I)),
+          S: rows.map((row) => Number(row.S)),
+          M: rows.map((row) => Number(row.M)),
+          D: rows.map((row) => Number(row.D)),
+        };
+      }
+
+      function computeMetrics(series) {
+        const peakInfected = Math.max(...series.I);
+        const peakSerious = Math.max(...series.S);
+        const finalRecovered = series.M[series.M.length - 1] ?? 0;
+        const finalDeaths = series.D[series.D.length - 1] ?? 0;
+        return {
+          peakInfected,
+          peakSerious,
+          finalRecovered,
+          finalDeaths,
+        };
+      }
+
+      function updateTable(rows) {
+        const tbody = document.querySelector("#latestTable tbody");
+        tbody.innerHTML = "";
+        const slice = rows.slice(-7);
+        slice.forEach((row) => {
+          const tr = document.createElement("tr");
+          ["date", "H", "I", "S", "M", "D"].forEach((key) => {
+            const td = document.createElement("td");
+            const value = key === "date" ? row[key] : formatNumber(Number(row[key]));
+            td.textContent = value;
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+      }
+
+      async function main() {
+        const response = await fetch(SUMMARY_CSV);
+        const text = await response.text();
+        const rows = parseCsv(text);
+        const countries = Array.from(new Set(rows.map((row) => row.country))).sort();
+
+        const countrySelect = document.getElementById("countrySelect");
+        countries.forEach((country) => {
+          const option = document.createElement("option");
+          option.value = country;
+          option.textContent = country;
+          countrySelect.appendChild(option);
+        });
+
+        let trendChart = null;
+        let mixChart = null;
+
+        function render(country) {
+          const filtered = rows.filter((row) => row.country === country);
+          const series = buildSeries(filtered);
+          const metrics = computeMetrics(series);
+
+          document.getElementById("peakInfected").textContent = formatNumber(metrics.peakInfected);
+          document.getElementById("peakSerious").textContent = formatNumber(metrics.peakSerious);
+          document.getElementById("finalRecovered").textContent = formatNumber(metrics.finalRecovered);
+          document.getElementById("finalDeaths").textContent = formatNumber(metrics.finalDeaths);
+
+          const chartMode = document.getElementById("viewSelect").value;
+          const stacked = chartMode === "stacked";
+
+          const datasets = [
+            { label: "Healthy", data: series.H, borderColor: colors.H, backgroundColor: colors.H + "55", fill: stacked },
+            { label: "Infected", data: series.I, borderColor: colors.I, backgroundColor: colors.I + "55", fill: stacked },
+            { label: "Serious", data: series.S, borderColor: colors.S, backgroundColor: colors.S + "55", fill: stacked },
+            { label: "Recovered", data: series.M, borderColor: colors.M, backgroundColor: colors.M + "55", fill: stacked },
+            { label: "Deceased", data: series.D, borderColor: colors.D, backgroundColor: colors.D + "55", fill: stacked },
+          ];
+
+          if (trendChart) {
+            trendChart.data.labels = series.labels;
+            trendChart.data.datasets = datasets;
+            trendChart.options.scales.y.stacked = stacked;
+            trendChart.update();
+          } else {
+            const ctx = document.getElementById("trendChart");
+            trendChart = new Chart(ctx, {
+              type: "line",
+              data: {
+                labels: series.labels,
+                datasets,
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                  x: {
+                    ticks: { maxTicksLimit: 8 },
+                  },
+                  y: {
+                    stacked,
+                    ticks: {
+                      callback: (value) => formatNumber(value),
+                    },
+                  },
+                },
+                plugins: {
+                  legend: { position: "bottom" },
+                },
+                elements: {
+                  line: { tension: 0.25 },
+                  point: { radius: 0 },
+                },
+              },
+            });
+          }
+
+          const lastIndex = series.labels.length - 1;
+          const mixData = {
+            labels: ["Healthy", "Infected", "Serious", "Recovered", "Deceased"],
+            datasets: [{
+              data: [
+                series.H[lastIndex],
+                series.I[lastIndex],
+                series.S[lastIndex],
+                series.M[lastIndex],
+                series.D[lastIndex],
+              ],
+              backgroundColor: [colors.H, colors.I, colors.S, colors.M, colors.D],
+            }],
+          };
+
+          if (mixChart) {
+            mixChart.data = mixData;
+            mixChart.update();
+          } else {
+            mixChart = new Chart(document.getElementById("mixChart"), {
+              type: "doughnut",
+              data: mixData,
+              options: {
+                plugins: {
+                  legend: { position: "bottom" },
+                },
+              },
+            });
+          }
+
+          updateTable(filtered);
+        }
+
+        countrySelect.addEventListener("change", (event) => {
+          render(event.target.value);
+        });
+        document.getElementById("viewSelect").addEventListener("change", () => {
+          render(countrySelect.value);
+        });
+        document.getElementById("resetZoom").addEventListener("click", () => {
+          render(countrySelect.value);
+        });
+
+        countrySelect.value = countries[0];
+        render(countries[0]);
+      }
+
+      main();
+    </script>
   </body>
 </html>
