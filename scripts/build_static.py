@@ -174,7 +174,6 @@ def write_index(out_dir: Path, countries: List[str]) -> None:
         <h2>Downloads</h2>
         <a href=\"a2-covid-summary-timeseries.csv\">summary time series CSV</a>
         <a href=\"a2-covid-simulated-timeseries.csv\">simulated time series CSV</a>
-        <a href=\"streamlit_ui.py\">streamlit UI source</a>
         <p class=\"note\">To customize countries or date range, edit scripts/build_static.py and redeploy.</p>
       </section>
     </main>
@@ -200,8 +199,6 @@ def main() -> None:
 
     copy_if_exists(ROOT_DIR / "a2-covid-summary-timeseries.csv", out_dir / "a2-covid-summary-timeseries.csv")
     copy_if_exists(ROOT_DIR / "a2-covid-simulated-timeseries.csv", out_dir / "a2-covid-simulated-timeseries.csv")
-
-    copy_if_exists(ROOT_DIR / "streamlit_ui.py", out_dir / "streamlit_ui.py")
 
     for country in DEFAULT_COUNTRIES:
         plot_name = f"covid_{country}_filled_plot.png"
