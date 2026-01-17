@@ -1,5 +1,7 @@
 # COVID-19 Simulation
 
+**GitHub Repository**: https://github.com/NJVinay/Covid-19-Simulation
+
 A comprehensive data-driven simulation model for COVID-19 that studies state transitions and forecasts disease progression across different countries and age groups. This project demonstrates the power of computational modeling in understanding pandemic dynamics and aiding in strategic decision-making.
 
 ## Overview
